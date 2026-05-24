@@ -11,7 +11,7 @@ use App\Http\Controllers\EventController;
 
 // Welcome / Root redirect
 Route::get('/', function () {
-    return auth()->check() ? redirect()->route('dashboard') : redirect()->route('login');
+    return auth()->check() ? redirect()->route('dashboard') : view('welcome');
 });
 
 // Diagnostic Route for Render deployment
