@@ -66,7 +66,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # Hardcode environment variables for auto-deployment (Railway/Render)
 ENV APP_ENV=production
-ENV APP_DEBUG=false
+ENV APP_DEBUG=true
 ENV APP_KEY=base64:mPNGUtfIvUnqAmi37gYDm64z1Sr8TDUQd4QyUrB1/cE=
 ENV DB_CONNECTION=mongodb
 ENV MONGODB_URI="mongodb+srv://arijitdebnath:ari123jit@cluster.vk5qq1f.mongodb.net/entreconnect?retryWrites=true&w=majority&appName=Cluster"
