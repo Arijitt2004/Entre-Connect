@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: entre-connect
+    runtime: docker
+    repo: https://github.com/Arijitt2004/Entre-Connect
+    branch: main
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:mPNGUtfIvUnqAmi37gYDm64z1Sr8TDUQd4QyUrB1/cE=
+      - key: DB_CONNECTION
+        value: mongodb
+      - key: MONGODB_URI
+        value: mongodb+srv://arijitdebnath:ari123jit@cluster.vk5qq1f.mongodb.net/entreconnect?retryWrites=true&w=majority&appName=Cluster
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: stderr
