@@ -64,6 +64,17 @@ RUN COMPOSER_MEMORY_LIMIT=-1 composer dump-autoload --optimize --no-scripts --ig
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Hardcode environment variables for auto-deployment (Railway/Render)
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV APP_KEY=base64:mPNGUtfIvUnqAmi37gYDm64z1Sr8TDUQd4QyUrB1/cE=
+ENV DB_CONNECTION=mongodb
+ENV MONGODB_URI="mongodb+srv://arijitdebnath:ari123jit@cluster.vk5qq1f.mongodb.net/entreconnect?retryWrites=true&w=majority&appName=Cluster"
+ENV SESSION_DRIVER=file
+ENV CACHE_DRIVER=file
+ENV QUEUE_CONNECTION=sync
+ENV LOG_CHANNEL=stderr
+
 # Expose the port
 EXPOSE 8000
 
