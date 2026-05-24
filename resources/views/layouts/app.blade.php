@@ -34,6 +34,17 @@
             --font-inter: 'Inter', sans-serif;
         }
 
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --surface-color: rgba(255, 255, 255, 0.85);
+            --surface-hover: rgba(243, 244, 246, 0.9);
+            --border-color: rgba(0, 0, 0, 0.08);
+            
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -185,6 +196,29 @@
             border-color: #ef4444;
         }
 
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .theme-toggle-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
         /* Container & Main Layout */
         main {
             flex: 1;
@@ -286,10 +320,15 @@
                 <a href="{{ route('dashboard') }}" class="nav-item {{ Route::is('dashboard') ? 'active' : '' }}">Discover</a>
                 <a href="{{ route('pitches.index') }}" class="nav-item {{ Route::is('pitches.*') ? 'active' : '' }}">Pitch Board</a>
                 <a href="{{ route('messages') }}" class="nav-item {{ Route::is('messages') ? 'active' : '' }}">Messages</a>
+                <a href="{{ route('events.index') }}" class="nav-item {{ Route::is('events.*') ? 'active' : '' }}">Events</a>
                 <a href="{{ route('profile') }}" class="nav-item {{ Route::is('profile') ? 'active' : '' }}">My Profile</a>
             </div>
             
             <div class="user-menu">
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Theme">
+                    <svg id="themeIconSun" style="display:none; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="themeIconMoon" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
                 <span class="role-badge role-{{ Auth::user()->role }}">
                     {{ str_replace('_', ' ', Auth::user()->role) }}
                 </span>
@@ -317,6 +356,38 @@
         <p>&copy; {{ date('Y') }} EntreConnect Ecosystem. Connect. Collaborate. Build.</p>
     </footer>
 
+    <script>
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const iconSun = document.getElementById('themeIconSun');
+        const iconMoon = document.getElementById('themeIconMoon');
+        const htmlEl = document.documentElement;
+
+        // Check local storage
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            htmlEl.setAttribute('data-theme', 'light');
+            iconMoon.style.display = 'none';
+            iconSun.style.display = 'block';
+        }
+
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                let theme = htmlEl.getAttribute('data-theme');
+                if (theme === 'light') {
+                    htmlEl.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'dark');
+                    iconSun.style.display = 'none';
+                    iconMoon.style.display = 'block';
+                } else {
+                    htmlEl.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    iconMoon.style.display = 'none';
+                    iconSun.style.display = 'block';
+                }
+            });
+        }
+    </script>
     @yield('scripts')
 </body>
 </html>

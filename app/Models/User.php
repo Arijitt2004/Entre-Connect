@@ -37,4 +37,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pitch::class);
     }
+
+    /**
+     * Get the events hosted by the user.
+     */
+    public function hostedEvents()
+    {
+        return $this->hasMany(Event::class, 'host_id');
+    }
 }

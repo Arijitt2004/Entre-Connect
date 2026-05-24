@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\PitchController;
+use App\Http\Controllers\EventController;
 
 // Welcome / Root redirect
 Route::get('/', function () {
@@ -67,4 +68,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/pitches', [PitchController::class, 'index'])->name('pitches.index');
     Route::post('/pitches', [PitchController::class, 'store'])->name('pitches.store');
     Route::post('/pitches/{id}/like', [PitchController::class, 'like'])->name('pitches.like');
+
+    // Events
+    Route::get('/events', [EventController::class, 'index'])->name('events.index');
+    Route::post('/events', [EventController::class, 'store'])->name('events.store');
+    Route::post('/events/{id}/rsvp', [EventController::class, 'rsvp'])->name('events.rsvp');
 });
