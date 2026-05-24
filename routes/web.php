@@ -12,6 +12,26 @@ Route::get('/', function () {
     return auth()->check() ? redirect()->route('dashboard') : redirect()->route('login');
 });
 
+// Diagnostic Route for Render deployment
+Route::get('/test-db', function () {
+    try {
+        $connection = \Illuminate\Support\Facades\DB::connection('mongodb');
+        $db = $connection->getMongoDB();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully connected to MongoDB Atlas from Render!',
+            'database_name' => $db->getDatabaseName(),
+            'collections' => iterator_to_array($db->listCollectionNames())
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Database Connection Failed on Render!',
+            'error_details' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Guest Auth Routes
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
