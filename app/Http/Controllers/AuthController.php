@@ -45,13 +45,14 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect()->route('dashboard');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return response()->json([
                 'CRITICAL_ERROR' => 'Registration failed on Render!',
                 'Error_Message' => $e->getMessage(),
+                'Error_Class' => get_class($e),
                 'File_Location' => $e->getFile(),
                 'Line_Number' => $e->getLine()
-            ], 500);
+            ]);
         }
     }
 

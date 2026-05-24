@@ -23,12 +23,13 @@ Route::get('/test-db', function () {
             'database_name' => $db->getDatabaseName(),
             'collections' => iterator_to_array($db->listCollectionNames())
         ]);
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         return response()->json([
             'status' => 'error',
             'message' => 'Database Connection Failed on Render!',
+            'error_class' => get_class($e),
             'error_details' => $e->getMessage()
-        ], 500);
+        ]);
     }
 });
 
