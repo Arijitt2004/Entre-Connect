@@ -26,24 +26,33 @@ class AuthController extends Controller
             'role' => 'required|string|in:founder,co_founder,investor,mentor,entrepreneur',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-            'title' => ucfirst($request->role) . ' @ EntreConnect',
-            'bio' => 'Ready to connect and collaborate in the ecosystem.',
-            'skills' => '',
-            'industry' => '',
-            'stage' => 'Idea Stage',
-            'ticket_size' => 'Not Specified',
-            'linkedin' => '',
-            'profile_image' => 'https://api.dicebear.com/7.x/bottts/svg?seed=' . urlencode($request->name),
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'title' => ucfirst($request->role) . ' @ EntreConnect',
+                'bio' => 'Ready to connect and collaborate in the ecosystem.',
+                'skills' => '',
+                'industry' => '',
+                'stage' => 'Idea Stage',
+                'ticket_size' => 'Not Specified',
+                'linkedin' => '',
+                'profile_image' => 'https://api.dicebear.com/7.x/bottts/svg?seed=' . urlencode($request->name),
+            ]);
 
-        Auth::login($user);
+            Auth::login($user);
 
-        return redirect()->route('dashboard');
+            return redirect()->route('dashboard');
+        } catch (\Exception $e) {
+            return response()->json([
+                'CRITICAL_ERROR' => 'Registration failed on Render!',
+                'Error_Message' => $e->getMessage(),
+                'File_Location' => $e->getFile(),
+                'Line_Number' => $e->getLine()
+            ], 500);
+        }
     }
 
     public function showLogin()
