@@ -45,19 +45,20 @@ WORKDIR /var/www/html
 # Copy composer files first (for Docker layer caching)
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies (no memory limit, no scripts to avoid artisan hang)
+# Install PHP dependencies (ignore platform reqs since extensions are already installed above)
 RUN COMPOSER_MEMORY_LIMIT=-1 composer install \
     --no-dev \
     --optimize-autoloader \
     --no-interaction \
     --no-scripts \
-    --prefer-dist
+    --prefer-dist \
+    --ignore-platform-reqs
 
 # Copy the rest of the application
 COPY . .
 
 # Generate optimized autoload files
-RUN COMPOSER_MEMORY_LIMIT=-1 composer dump-autoload --optimize --no-scripts
+RUN COMPOSER_MEMORY_LIMIT=-1 composer dump-autoload --optimize --no-scripts --ignore-platform-reqs
 
 # Set proper storage/cache permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
