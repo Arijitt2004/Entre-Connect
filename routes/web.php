@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ConnectionController;
+use App\Http\Controllers\PitchController;
 
 // Welcome / Root redirect
 Route::get('/', function () {
@@ -61,4 +62,9 @@ Route::middleware('auth')->group(function () {
     // Profile Management
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Pitch Board
+    Route::get('/pitches', [PitchController::class, 'index'])->name('pitches.index');
+    Route::post('/pitches', [PitchController::class, 'store'])->name('pitches.store');
+    Route::post('/pitches/{id}/like', [PitchController::class, 'like'])->name('pitches.like');
 });

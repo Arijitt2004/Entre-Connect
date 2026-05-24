@@ -29,4 +29,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the pitches created by the user.
+     */
+    public function pitches()
+    {
+        return $this->hasMany(Pitch::class);
+    }
 }

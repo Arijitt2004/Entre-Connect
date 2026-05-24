@@ -284,6 +284,7 @@
             @auth
             <div class="nav-links">
                 <a href="{{ route('dashboard') }}" class="nav-item {{ Route::is('dashboard') ? 'active' : '' }}">Discover</a>
+                <a href="{{ route('pitches.index') }}" class="nav-item {{ Route::is('pitches.*') ? 'active' : '' }}">Pitch Board</a>
                 <a href="{{ route('messages') }}" class="nav-item {{ Route::is('messages') ? 'active' : '' }}">Messages</a>
                 <a href="{{ route('profile') }}" class="nav-item {{ Route::is('profile') ? 'active' : '' }}">My Profile</a>
             </div>
